@@ -1,4 +1,4 @@
-import {Table, Column, DataType, Model, HasMany, ForeignKey, BelongsTo} from 'sequelize-typescript'
+import {Table, Column, DataType, Model, HasMany, ForeignKey, BelongsTo, HasOne} from 'sequelize-typescript'
 
 @Table({
   timestamps: true,
@@ -64,6 +64,31 @@ export class CompletedTasks extends Model {
 
 @Table({
   timestamps: true,
+  tableName: 'tokens',
+  modelName: 'Token'
+})
+
+export class Token extends Model {
+  @ForeignKey(() => User)
+  @Column({
+    type: DataType.UUID,
+    primaryKey: true,
+    defaultValue: DataType.UUIDV4
+  })
+  declare id: string
+
+  @Column({
+    type: DataType.STRING(1024),
+    allowNull: false
+  })
+  declare refreshToken: string
+
+  @BelongsTo(() => User, 'userId')
+  declare user: User
+}
+
+@Table({
+  timestamps: true,
   tableName: 'users',
   modelName: 'User'
 })
@@ -78,21 +103,22 @@ export class User extends Model {
 
   @Column({
     type: DataType.STRING,
-    primaryKey: true,
     allowNull: false
   })
   declare email: string
 
   @Column({
     type: DataType.STRING,
-    primaryKey: true,
     allowNull: false
   })
   declare password: string
 
-  @HasMany(() => Task, 'userId')
+  @HasMany(() => CompletedTasks, 'userId')
   declare completed_tasks: CompletedTasks[]
 
   @HasMany(() => Task, 'userId')
   declare tasks: Task[]
+
+  @HasOne(() => Token, 'userId')
+  declare token: Token
 }

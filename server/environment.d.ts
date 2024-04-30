@@ -1,3 +1,5 @@
+import {GetPublicKeyOrSecret, Secret} from "jsonwebtoken";
+
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
@@ -9,6 +11,8 @@ declare global {
       DB_NAME: string
       SECRET_KEY: string
       CLIENT_URL: string
+      JWT_ACCESS_SECRET: Secret
+      JWT_REFRESH_SECRET: Secret
     }
   }
 }
