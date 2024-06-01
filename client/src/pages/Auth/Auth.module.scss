@@ -1,0 +1,114 @@
+@import "../../scss/variables";
+
+.wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  //background-color: $dark;
+  overflow: hidden;
+  background: url("../../assets/formBg.png") center/100% ;
+  position: relative;
+
+  .haveAccount {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    color: #fff;
+    font-size: 10px;
+    z-index: 10;
+
+    a {
+      color: #fff;
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: .2s;
+
+      &:hover {
+        transition: .2s;
+        border-bottom: 1px solid white;
+      }
+    }
+  }
+
+  .form {
+    position: relative;
+    width: 360px;
+    height: 600px;
+    background: rgb(225,40,37);
+    background: linear-gradient(90deg, rgba(225,40,37,1) 0%, rgba(150,0,2,1) 100%);
+    box-shadow: 0 0 24px $focusRed;
+
+    .logoWrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+
+      .logo {
+        width: 42px;
+        height: 42px;
+      }
+    }
+  }
+
+  .inputs {
+    width: 320px;
+    padding: 160px 30px 30px 30px;
+    z-index: 5;
+    position: relative;
+
+    .error {
+      font-size: 12px;
+      font-weight: 600;
+      color: $mainRed;
+      margin-bottom: 4px;
+    }
+  }
+
+  .background {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    clip-path: inset(0 0 0 0);
+
+    .shape {
+      position: absolute;
+      transform: rotate(45deg);
+    }
+
+    .shape1 {
+      width: 550px;
+      height: 530px;
+      background-color: #fff;
+      top: -50px;
+      right: 120px;
+      border-radius: 0 72px 0 0;
+      z-index: 4;
+    }
+    .shape2 {
+      background-color: $hoverRed;
+      width: 220px;
+      height: 200px;
+      top: -160px;
+      right: 0;
+      border-radius: 32px;
+    }
+    .shape3 {
+      background: rgb(225,40,37);
+      background: linear-gradient(90deg, rgb(207 11 8) 0%, rgb(170 8 10) 100%);
+      height: 540px;
+      width: 190px;
+      top: -24px;
+      right: 0;
+      border-radius: 32px;
+    }
+    .shape4 {
+      background-color: $focusRed;
+      height: 400px;
+      width: 200px;
+      top: 420px;
+      right: 50px;
+      border-radius: 60px;
+    }
+  }
+}

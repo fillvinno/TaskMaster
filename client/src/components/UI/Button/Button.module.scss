@@ -1,0 +1,32 @@
+@import "../../../scss/variables";
+
+.wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: $mainRed;
+  font-size: 14px;
+  background-color: #fff;
+  transition: .2s;
+  border-radius: 18px;
+  border: 2px solid $mainRed;
+  cursor: pointer;
+  z-index: 10;
+  position: relative;
+  margin-top: 60px;
+  height: 50px;
+  margin-left: 20px;
+
+  &:hover {
+    transition: .2s;
+    border: 2px solid $mainRed;
+    background-color: $mainRed;
+    color: white;
+  }
+
+  &:active {
+    transition: .1s;
+    border: 2px solid $focusRed;
+    background-color: $focusRed;
+  }
+}

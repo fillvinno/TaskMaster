@@ -1,7 +1,7 @@
 import {HOME_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE} from "./utils/consts.ts";
 import Home from "./pages/Home/Home.tsx";
-import Login from "./pages/Login/Login.tsx";
 import Registration from "./pages/Registration/Registration.tsx";
+import Auth from "./pages/Auth/Auth.tsx";
 
 interface IRoute {
   path: string,
@@ -18,10 +18,10 @@ export const authRoutes: IRoute[] = [
 export const publicRoutes: IRoute[] = [
   {
     path: LOGIN_ROUTE,
-    Component: <Login/>
+    Component: <Auth/>
   },
   {
     path: REGISTRATION_ROUTE,
-    Component: <Registration/>
+    Component: <Auth/>
   }
 ]

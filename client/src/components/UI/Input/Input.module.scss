@@ -1,0 +1,49 @@
+@import '../../../scss/variables';
+
+.wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  position: relative;
+
+
+
+  .icon {
+    width: 18px;
+    height: 18px;
+    position: absolute;
+  }
+
+  .input {
+    display: flex;
+    padding: 8px 0 8px 32px;
+    font-weight: 600;
+    transition: .2s;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid #d1d1d4;
+    border-right: 5px solid transparent;
+    background-color: transparent;
+
+    &[name='confirmPassword'] {
+      border-right: none;
+    }
+
+    &[aria-invalid='true'] {
+      border-right: 5px solid $mainRed;
+      border-bottom: 2px solid $mainRed;
+      transition: .2s;
+    }
+
+    &:hover {
+      transition: .2s;
+      border-bottom: 2px solid $mainRed;
+    }
+
+    &:focus {
+      transition: .2s;
+      border-bottom: 2px solid $mainRed;
+    }
+  }
+}
