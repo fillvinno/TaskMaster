@@ -1,12 +1,17 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect} from 'react';
 import styles from './Auth.module.scss'
 import Input, {Icons} from "../../components/UI/Input/Input.tsx";
 import Button from "../../components/UI/Button/Button.tsx";
-import {Link, Path, useLocation} from "react-router-dom";
+import {Link, NavigateFunction, Path, useLocation, useNavigate} from "react-router-dom";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {JSX} from "react/jsx-runtime";
+import {useAppSelector} from "../../hooks/useAppSelector.ts";
+import {useAppDispatch} from "../../hooks/useAppDispatch.ts";
+import {userSlice} from "../../store/reducers/UserSlice.ts";
+import {IUserFormLogin, IUserFormRegistration} from "../../models/IUser.ts";
+import {userAPI} from "../../services/UserAPI.ts";
 
-export interface IFormInput {
+interface IFormInput {
   email: string
   password: string
   confirmPassword: string
@@ -18,9 +23,63 @@ function isLoginPath(path: string): boolean {
 
 const Auth: FC = () => {
   const { register, handleSubmit, formState: { errors } } = useForm<IFormInput>()
+
+  const dispatch = useAppDispatch()
+  const {isAuth} = useAppSelector(state => state.userReducer)
+  const {setAuth, setUser} = userSlice.actions
+
+  const [login,
+    {
+      data: loginData,
+      error: loginError,
+      isLoading: loginIsLoading
+    }
+  ] = userAPI.useLoginMutation()
+
+  const [registration,
+    {
+      data: registrationData,
+      error: registrationError,
+      isLoading: registrationIsLoading
+    }
+  ] = userAPI.useRegistrationMutation()
+  const {refetch} = userAPI.useRefreshQuery()
+
+  const navigate: NavigateFunction = useNavigate()
   const {pathname}: Path = useLocation()
-  console.log('err =L', errors)
-  const onSubmit: SubmitHandler<IFormInput> = (data) => console.log(data)
+
+  const loginSubmit: SubmitHandler<IFormInput> = async (data: IUserFormLogin) => {
+    try {
+      const response: any = await login(data) // todo: fix any
+
+      if (response?.data) {
+        console.log(response)
+        localStorage.setItem('token', response?.data?.accessToken)
+        dispatch(setAuth(true))
+        dispatch(setUser(response?.data?.user))
+        if (!loginError) navigate('/')
+      }
+    } catch (e) {
+      console.log(e)
+      console.log(loginError)
+    }
+  }
+
+  const registrationSubmit: SubmitHandler<IFormInput> = async (data: IUserFormRegistration) => {
+    try {
+      const response: any = await registration(data) // todo: fix any
+      console.log('res => ', response, 'data => ', data)
+      if (response?.data) {
+        localStorage.setItem('token', response?.data?.accessToken)
+        dispatch(setAuth(true))
+        dispatch(setUser(response?.data?.user))
+        if (!registrationError) navigate('/')
+      }
+    } catch (e) {
+      console.log(e)
+      console.log(loginError)
+    }
+  }
 
   const renderError = (): undefined | JSX.Element => {
     return isLoginPath(pathname)
@@ -32,10 +91,16 @@ const Auth: FC = () => {
     );
   };
 
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+
+    }
+  });
+
   return (
     <div className={styles.wrap}>
       <div className={styles.form}>
-        <form className={styles.inputs} onSubmit={handleSubmit(onSubmit)}>
+        <form className={styles.inputs} onSubmit={handleSubmit(isLoginPath(pathname) ? loginSubmit : registrationSubmit)}>
           {
             renderError()
           }

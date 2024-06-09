@@ -11,7 +11,7 @@ interface IRoute {
 export const authRoutes: IRoute[] = [
   {
     path: HOME_ROUTE,
-    Component: <Home/>
+    Component: <Home/> // todo
   }
 ]
 

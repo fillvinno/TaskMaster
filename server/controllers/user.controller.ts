@@ -5,7 +5,7 @@ import {UserDto} from "../dtos/user.dto.js";
 import {Result, ValidationError, validationResult} from "express-validator";
 import {ApiError} from "../extensions/api.error.js";
 
-type TUserData = {
+export type TUserData = {
   accessToken: string,
   refreshToken: string,
   user: UserDto
@@ -34,7 +34,7 @@ class UserController {
   async login(req: Request, res: Response, next: NextFunction) {
     try {
       const { email, password } = req.body
-      const userData: {user: User, accessToken: string, refreshToken: string} = await userService.login(email, password)
+      const userData: TUserData = await userService.login(email, password)
       res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
 
       return res.json(userData)
@@ -58,7 +58,7 @@ class UserController {
   async refresh(req: Request, res: Response, next: NextFunction) {
     try {
       const {refreshToken} = req.cookies
-      const userData: {accessToken: string, refreshToken: string, user: any} = await userService.refresh(refreshToken) // fix user: any (todo)
+      const userData: TUserData = await userService.refresh(refreshToken) // fix user: any (todo)
       console.log(userData)
       res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
 
