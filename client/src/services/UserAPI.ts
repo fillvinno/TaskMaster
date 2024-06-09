@@ -28,9 +28,6 @@ export const userAPI = createApi({
     refresh:  builder.query<TUserData, void>({
       query: () => ({
         url: `/refresh`,
-        // responseHandler: (response) => {
-        //   console.log(response)
-        // },
         credentials: 'include'
       }),
     })

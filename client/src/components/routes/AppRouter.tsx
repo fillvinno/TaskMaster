@@ -3,23 +3,39 @@ import {Navigate, NavigateFunction, Route, Routes, useNavigate} from "react-rout
 import {authRoutes, publicRoutes} from "../../routes.tsx";
 import {useAppSelector} from "../../hooks/useAppSelector.ts";
 import {userAPI} from "../../services/UserAPI.ts";
+import {useAppDispatch} from "../../hooks/useAppDispatch.ts";
+import {userSlice} from "../../store/reducers/UserSlice.ts";
 
 const isAuth = true
 
 const AppRouter = () => {
   const {isAuth} = useAppSelector(state => state.userReducer)
-  const {data, error, isLoading, refetch} = userAPI.useRefreshQuery()
+  const {setAuth, setUser} = userSlice.actions
+  const dispatch = useAppDispatch()
+  const {error, isLoading, refetch, } = userAPI.useRefreshQuery()
+
   const navigate: NavigateFunction = useNavigate()
 
   useEffect(() => {
     try {
-      // console.log(data)
-      // console.log(error)
-      console.log(isAuth)
+      async function fetchData() {
+        const user = await refetch()
+
+        dispatch(setAuth(true))
+        dispatch(setUser(user.data?.user))
+        console.log(user.data?.user)
+
+        if (error) {
+          navigate('/login')
+        }
+      }
+      fetchData()
     } catch (e) {
-      console.log(e)
+      console.log(error)
     }
-  }, [isAuth])
+  }, [])
+
+  if (isLoading) return <h1>Загрузка...</h1>
 
   return (
     <Routes>
