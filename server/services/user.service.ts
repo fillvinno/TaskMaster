@@ -48,7 +48,7 @@ class UserService {
     const tokens: {accessToken: string, refreshToken: string} = tokenService.generateTokens({...userDto})
     await tokenService.saveToken(userDto.id, tokens.refreshToken)
 
-    return {...tokens, user: user.dataValues}
+    return {...tokens, user: userDto}
   }
 
   async logout(refreshToken: string): Promise<number> {
@@ -69,10 +69,11 @@ class UserService {
 
     const user: any = await User.findOne({ where: { id: userData.id } }) // fix any (todo)
     const tokens: {accessToken: string, refreshToken: string} = tokenService.generateTokens({...user?.dataValues})
+    const userDto = new UserDto(user)
 
     await tokenService.saveToken(user.id, tokens.refreshToken)
 
-    return {...tokens, user: user.dataValues}
+    return {...tokens, user: userDto}
   }
 }
 

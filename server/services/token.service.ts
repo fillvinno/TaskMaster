@@ -13,8 +13,8 @@ interface IJwtPayload extends JwtPayload {
 
 class TokenService {
   generateTokens(payload: object): {accessToken: string, refreshToken: string} {
-    const accessToken: string = jwt.sign(payload, process.env.JWT_ACCESS_SECRET as Secret, {expiresIn: '15s'})
-    const refreshToken: string = jwt.sign(payload, process.env.JWT_REFRESH_SECRET as Secret, {expiresIn: '30s'})
+    const accessToken: string = jwt.sign(payload, process.env.JWT_ACCESS_SECRET as Secret, {expiresIn: '7d'})
+    const refreshToken: string = jwt.sign(payload, process.env.JWT_REFRESH_SECRET as Secret, {expiresIn: '30d'})
 
     return {
       accessToken,

@@ -10,6 +10,7 @@ import {useAppDispatch} from "../../hooks/useAppDispatch.ts";
 import {userSlice} from "../../store/reducers/UserSlice.ts";
 import {IUserFormLogin, IUserFormRegistration} from "../../models/IUser.ts";
 import {userAPI} from "../../services/UserAPI.ts";
+import {skipToken} from "@reduxjs/toolkit/query";
 
 interface IFormInput {
   email: string
@@ -22,11 +23,14 @@ function isLoginPath(path: string): boolean {
 }
 
 const Auth: FC = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm<IFormInput>()
-
   const dispatch = useAppDispatch()
-  const {isAuth} = useAppSelector(state => state.userReducer)
+  const navigate: NavigateFunction = useNavigate()
+  const {pathname}: Path = useLocation()
+
+  const { register, handleSubmit, formState: { errors } } = useForm<IFormInput>()
   const {setAuth, setUser} = userSlice.actions
+  const {isAuth} = useAppSelector(state => state.userReducer)
+  userAPI.useRefreshQuery(skipToken)
 
   const [login,
     {
@@ -43,10 +47,7 @@ const Auth: FC = () => {
       isLoading: registrationIsLoading
     }
   ] = userAPI.useRegistrationMutation()
-  const {refetch} = userAPI.useRefreshQuery()
 
-  const navigate: NavigateFunction = useNavigate()
-  const {pathname}: Path = useLocation()
 
   const loginSubmit: SubmitHandler<IFormInput> = async (data: IUserFormLogin) => {
     try {
@@ -92,10 +93,8 @@ const Auth: FC = () => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem('token')) {
-
-    }
-  });
+    if (isAuth) navigate('/')
+  }, []);
 
   return (
     <div className={styles.wrap}>

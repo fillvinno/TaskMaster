@@ -1,48 +1,70 @@
-import React, {useEffect} from 'react';
-import {Navigate, NavigateFunction, Route, Routes, useNavigate} from "react-router-dom";
+import React, {useEffect, useState} from 'react';
+import {Navigate, NavigateFunction, Route, Routes, useLocation, useNavigate} from "react-router-dom";
 import {authRoutes, publicRoutes} from "../../routes.tsx";
 import {useAppSelector} from "../../hooks/useAppSelector.ts";
 import {userAPI} from "../../services/UserAPI.ts";
 import {useAppDispatch} from "../../hooks/useAppDispatch.ts";
 import {userSlice} from "../../store/reducers/UserSlice.ts";
-
-const isAuth = true
+import {UserDto} from "../../../../server/dtos/user.dto.ts";
+import Loader from "../loader/Loader.tsx";
+import {skipToken} from "@reduxjs/toolkit/query";
 
 const AppRouter = () => {
-  const {isAuth} = useAppSelector(state => state.userReducer)
-  const {setAuth, setUser} = userSlice.actions
   const dispatch = useAppDispatch()
-  const {error, isLoading, refetch, } = userAPI.useRefreshQuery()
-
+  const location = useLocation()
   const navigate: NavigateFunction = useNavigate()
 
+  const {error, refetch, data, isLoading, isFetching, isError} = userAPI.useRefreshQuery()
+  const {setAuth, setUser} = userSlice.actions
+  const {isAuth} = useAppSelector(state => state.userReducer)
+
+  let response: any
+
   useEffect(() => {
-    try {
-      async function fetchData() {
-        const user = await refetch()
+    console.log('isauth => ', isAuth)
+    if (!isAuth) navigate('/login')
 
-        dispatch(setAuth(true))
-        dispatch(setUser(user.data?.user))
-        console.log(user.data?.user)
-
-        if (error) {
+    async function fetchData() {
+      try {
+        if (localStorage.getItem('token')) {
+          response = await refetch()
+          console.log('12333 = ', data)
+          dispatch(setAuth(true))
+          dispatch(setUser(response?.data?.user))
+        } else if (isError) {
+          dispatch(setAuth(false))
+          dispatch(setUser({} as UserDto))
           navigate('/login')
         }
+      } catch (e) {
+        console.log(e)
       }
-      fetchData()
-    } catch (e) {
-      console.log(error)
     }
-  }, [])
-
-  if (isLoading) return <h1>Загрузка...</h1>
+    fetchData()
+      .then(() => {
+        console.log(data)
+        if (isError) {
+          dispatch(setAuth(false))
+          dispatch(setUser({} as UserDto))
+          navigate('/login')
+        }
+        if (isAuth) navigate('/')
+      })
+  }, [isAuth])
 
   return (
-    <Routes>
-      {isAuth && authRoutes.map(({path, Component}) => <Route key={path} path={path} element={Component} />)}
-      {publicRoutes.map(({path, Component}) => <Route key={path} path={path} element={Component} />)}
-      <Route path='*' element={<Navigate to={'/'}/>} />
-    </Routes>
+    isFetching
+      ?
+        <Loader/>
+      :
+        <Routes>
+          {isAuth && authRoutes.map(({path, Component}) => <Route key={path} path={path} element={Component} />)}
+          {publicRoutes.map(({path, Component}) => <Route key={path} path={path} element={Component} />)}
+          {isAuth
+            ? <Route path='*' element={<Navigate to={'/'}/>}/>
+            : <Route path='*' element={<Navigate to={'/login'}/>}/>
+          }
+        </Routes>
   );
 };
 
