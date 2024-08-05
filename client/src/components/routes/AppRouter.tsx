@@ -14,21 +14,22 @@ const AppRouter = () => {
   const location = useLocation()
   const navigate: NavigateFunction = useNavigate()
 
-  const {error, refetch, data, isLoading, isFetching, isError} = userAPI.useRefreshQuery()
+  const {refetch, data, isFetching, isError} = userAPI.useRefreshQuery()
   const {setAuth, setUser} = userSlice.actions
   const {isAuth} = useAppSelector(state => state.userReducer)
 
   let response: any
 
   useEffect(() => {
-    console.log('isauth => ', isAuth)
-    if (!isAuth) navigate('/login')
+    if (!isAuth) {
+      if (location.pathname === '/login') navigate('/login')
+      if (location.pathname === '/registration') navigate('/registration')
+    }
 
     async function fetchData() {
       try {
         if (localStorage.getItem('token')) {
           response = await refetch()
-          console.log('12333 = ', data)
           dispatch(setAuth(true))
           dispatch(setUser(response?.data?.user))
         } else if (isError) {
@@ -42,7 +43,6 @@ const AppRouter = () => {
     }
     fetchData()
       .then(() => {
-        console.log(data)
         if (isError) {
           dispatch(setAuth(false))
           dispatch(setUser({} as UserDto))
