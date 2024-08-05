@@ -21,15 +21,12 @@ const AppRouter = () => {
   let response: any
 
   useEffect(() => {
-    if (!isAuth) {
-      if (location.pathname === '/login') navigate('/login')
-      if (location.pathname === '/registration') navigate('/registration')
-    }
-
+    console.log('isauth => ', isAuth)
     async function fetchData() {
       try {
         if (localStorage.getItem('token')) {
           response = await refetch()
+          console.log('12333 = ', data)
           dispatch(setAuth(true))
           dispatch(setUser(response?.data?.user))
         } else if (isError) {
@@ -43,14 +40,19 @@ const AppRouter = () => {
     }
     fetchData()
       .then(() => {
+        console.log(data)
         if (isError) {
           dispatch(setAuth(false))
           dispatch(setUser({} as UserDto))
           navigate('/login')
         }
         if (isAuth) navigate('/')
+        if (!isAuth) {
+          if (location.pathname === '/login') navigate('/login')
+          if (location.pathname === '/registration') navigate('/registration')
+        }
       })
-  }, [isAuth])
+  }, [])
 
   return (
     isFetching
