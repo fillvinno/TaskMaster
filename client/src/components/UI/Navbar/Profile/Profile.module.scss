@@ -1,0 +1,23 @@
+@import "../../../../scss/variables";
+
+.profile {
+  border: 2px solid $grey;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  clip-path: inset(0 round 50%);
+  position: relative;
+
+  img {
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    height: 32px;
+    background-color: transparent;
+  }
+
+  &:hover {
+    background-color: #232323;
+  }
+}

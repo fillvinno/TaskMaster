@@ -1,0 +1,13 @@
+@import "../../../../scss/variables";
+
+.wrap {
+  border-radius: 4px;
+  padding: 12px 10px;
+  cursor: pointer;
+  
+  &:hover {
+    background-color: $hoverRed;
+    transition: .3s;
+    color: white;
+  }
+}

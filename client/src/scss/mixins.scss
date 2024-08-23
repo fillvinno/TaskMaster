@@ -1,0 +1,21 @@
+@mixin desk-item {
+  border: none;
+  width: 160px;
+  height: 90px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+@mixin desk-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+@mixin btn {
+  display: flex;
+  align-items: center;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}

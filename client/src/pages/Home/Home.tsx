@@ -1,9 +1,12 @@
 import React from 'react';
+import Navbar from "../../components/UI/Navbar/Navbar.tsx";
+import DeskList from "../../components/DesksList/DeskList.tsx";
 
 const Home = () => {
   return (
     <div>
-      444
+      <Navbar/>
+      <DeskList/>
     </div>
   );
 };

@@ -1,0 +1,24 @@
+@import "../../../scss/variables";
+
+.wrap {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px solid $grey;
+  padding: 12px 48px;
+  margin-bottom: 32px;
+
+  .logo {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 18px;
+    color: $mainRed;
+  }
+
+  .utils {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+}

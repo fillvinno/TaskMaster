@@ -6,7 +6,7 @@ import {userAPI} from "../../services/UserAPI.ts";
 import {useAppDispatch} from "../../hooks/useAppDispatch.ts";
 import {userSlice} from "../../store/reducers/UserSlice.ts";
 import {UserDto} from "../../../../server/dtos/user.dto.ts";
-import Loader from "../loader/Loader.tsx";
+import Loader from "../Loader/Loader.tsx";
 import {skipToken} from "@reduxjs/toolkit/query";
 
 const AppRouter = () => {
@@ -26,7 +26,6 @@ const AppRouter = () => {
       try {
         if (localStorage.getItem('token')) {
           response = await refetch()
-          console.log('12333 = ', data)
           dispatch(setAuth(true))
           dispatch(setUser(response?.data?.user))
         } else if (isError) {
@@ -40,7 +39,6 @@ const AppRouter = () => {
     }
     fetchData()
       .then(() => {
-        console.log(data)
         if (isError) {
           dispatch(setAuth(false))
           dispatch(setUser({} as UserDto))

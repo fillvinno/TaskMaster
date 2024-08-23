@@ -1,0 +1,23 @@
+@import '../../../scss/mixins';
+@import '../../../scss/variables';
+
+.wrap {
+  @include desk-item;
+  padding: 12px 18px;
+  background-color: $mainRed;
+  color: white;
+  position: relative;
+  text-decoration: none;
+
+  &:hover {
+    transition: .2s ease-out all;
+    background-color: $hoverRed;
+  }
+
+  .starIcon {
+    background-color: transparent;
+    position: absolute;
+    bottom: 8px;
+    right: 10px;
+  }
+}

@@ -1,0 +1,45 @@
+@import "../../../scss/variables";
+@import "../../../scss/mixins";
+
+.wrap {
+  border: 2px solid $grey;
+  padding: 24px;
+  min-width: 300px;
+  border-radius: 6px;
+
+  h3 {
+    margin-bottom: 16px;
+    padding: 0 4px;
+  }
+
+  .taskList {
+    //border: 2px solid $grey;
+    border-radius: 4px;
+    margin-bottom: 8px;
+  }
+
+  .addTaskBtn {
+    @include btn;
+    width: 100%;
+    font-weight: 600;
+    font-size: 16px;
+    padding: 0 12px;
+    border-radius: 4px;
+
+    &:hover {
+      background-color: $grey;
+      transition: .2s ease all;
+      
+      span {
+        background-color: $grey;
+        transition: .2s ease all;
+      }
+    }
+
+    span {
+      font-size: 32px;
+      font-weight: 400;
+      margin-right: 8px;
+    }
+  }
+}
