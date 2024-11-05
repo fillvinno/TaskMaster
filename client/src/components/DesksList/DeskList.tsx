@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styles from './DeskList.module.scss'
 import DeskListItem from "./DeskListItem/DeskListItem.tsx";
+import ColumnModal from "../ColumnModal/ColumnModal.tsx";
 
 const testarr = [
   {
@@ -52,6 +53,16 @@ const favarr = [
 ]
 
 const DeskList = () => {
+  const [isModalOpen, setModalOpen] = useState<boolean>(false)
+
+  function openModal() {
+    setModalOpen(true)
+  }
+
+  function closeModal() {
+    setModalOpen(false)
+  }
+
   return (
     <div className={styles.wrap}>
       <div className={styles.desks}>
@@ -67,9 +78,16 @@ const DeskList = () => {
         </div>
         <h3>Ваши доски</h3>
         <div className={styles.workDesks}>
-          <button className={styles.addBtn}>
+          <button
+            className={styles.addBtn}
+            onClick={openModal}
+          >
             +
           </button>
+          <ColumnModal
+            isModalOpen={isModalOpen}
+            closeModal={closeModal}
+          />
           {
             testarr.map(el => {
               return (

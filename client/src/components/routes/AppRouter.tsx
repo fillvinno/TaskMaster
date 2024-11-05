@@ -17,11 +17,9 @@ const AppRouter = () => {
   const {refetch, data, isFetching, isError} = userAPI.useRefreshQuery()
   const {setAuth, setUser} = userSlice.actions
   const {isAuth} = useAppSelector(state => state.userReducer)
-
   let response: any
 
   useEffect(() => {
-    console.log('isauth => ', isAuth)
     async function fetchData() {
       try {
         if (localStorage.getItem('token')) {
@@ -39,19 +37,18 @@ const AppRouter = () => {
     }
     fetchData()
       .then(() => {
-        if (isError) {
-          dispatch(setAuth(false))
-          dispatch(setUser({} as UserDto))
-          navigate('/login')
-        }
         if (isAuth) navigate('/')
         if (!isAuth) {
           if (location.pathname === '/login') navigate('/login')
           if (location.pathname === '/registration') navigate('/registration')
         }
+        // if (isError) {
+        //   dispatch(setAuth(false))
+        //   dispatch(setUser({} as UserDto))
+        //   navigate('/login')
+        // }
       })
   }, [])
-
   return (
     isFetching
       ?

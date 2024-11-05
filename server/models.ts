@@ -1,66 +1,4 @@
-import {Table, Column, DataType, Model, HasMany, ForeignKey, BelongsTo, HasOne} from 'sequelize-typescript'
-
-@Table({
-  timestamps: true,
-  tableName: 'tasks',
-  modelName: 'Task'
-})
-
-export class Task extends Model {
-  @ForeignKey(() => User)
-  @Column({
-    type: DataType.UUID,
-    primaryKey: true,
-    defaultValue: DataType.UUIDV4
-  })
-  declare id: string
-
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-  declare title: string;
-
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-  declare description: string;
-
-  @BelongsTo(() => User, 'userId')
-  declare user: User
-}
-
-@Table({
-  timestamps: true,
-  tableName: 'completed_tasks',
-  modelName: 'CompletedTasks'
-})
-
-export class CompletedTasks extends Model {
-  @ForeignKey(() => User)
-  @Column({
-    type: DataType.UUID,
-    primaryKey: true,
-    defaultValue: DataType.UUIDV4
-  })
-  declare id: string
-
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-  declare title: string;
-
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-  declare description: string;
-
-  @BelongsTo(() => User, 'userId')
-  declare user: User
-}
+import {Table, Column, DataType, Model, ForeignKey, BelongsTo, HasOne, HasMany} from 'sequelize-typescript'
 
 @Table({
   timestamps: true,
@@ -111,14 +49,111 @@ export class User extends Model {
     type: DataType.STRING,
     allowNull: false
   })
+  declare nickname: string
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false
+  })
   declare password: string
-
-  @HasMany(() => CompletedTasks, 'userId')
-  declare completed_tasks: CompletedTasks[]
-
-  @HasMany(() => Task, 'userId')
-  declare tasks: Task[]
 
   @HasOne(() => Token, 'userId')
   declare token: Token
+}
+
+@Table({
+  timestamps: true,
+  tableName: 'deskColumns',
+  modelName: 'DeskColumn'
+})
+
+export class DeskColumn extends Model {
+  @Column({
+    type: DataType.UUID,
+    primaryKey: true,
+    defaultValue: DataType.UUIDV4
+  })
+  declare id: string
+
+  @Column({
+    type: DataType.STRING,
+    defaultValue: "Column"
+  })
+  declare title: string
+
+  @ForeignKey(() => Desk)
+  @Column({
+    type: DataType.UUID,
+    primaryKey: true,
+    defaultValue: DataType.UUIDV4
+  })
+  declare deskId: string
+
+  @BelongsTo(() => Desk)
+  declare desk: Desk;
+
+  @HasMany(() => Card)
+  declare card: Card[]
+}
+
+@Table({
+  timestamps: true,
+  tableName: 'cards',
+  modelName: 'Card'
+})
+
+export class Card extends Model {
+  @Column({
+    type: DataType.UUID,
+    primaryKey: true,
+    defaultValue: DataType.UUIDV4
+  })
+  declare id: string
+
+  @Column({
+    type: DataType.STRING,
+    defaultValue: "Card"
+  })
+  declare title: string
+
+  @Column({
+    type: DataType.STRING,
+  })
+  declare description: string
+
+  @ForeignKey(() => DeskColumn)
+  @Column({
+    type: DataType.UUID,
+    primaryKey: true,
+    defaultValue: DataType.UUIDV4
+  })
+  declare columnId: string
+
+  @BelongsTo(() => DeskColumn)
+  declare column: string
+}
+
+@Table({
+  timestamps: true,
+  tableName: 'desks',
+  modelName: 'Desk'
+})
+
+export class Desk extends Model {
+  @Column({
+    type: DataType.UUID,
+    primaryKey: true,
+    defaultValue: DataType.UUIDV4
+  })
+  declare id: string
+
+  @Column({
+    type: DataType.STRING,
+    primaryKey: true,
+    defaultValue: 'Column'
+  })
+  declare title: string
+
+  @HasMany(() => DeskColumn)
+  declare deskColumns: DeskColumn[];
 }

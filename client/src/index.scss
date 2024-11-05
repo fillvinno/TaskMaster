@@ -1,12 +1,16 @@
 @import 'scss/fonts';
 @import 'scss/variables';
 
+body, html {
+  background-color: $dark;
+  color: $light-grey;
+  width: 100%;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  background-color: $dark;
-  color: $light-grey;
 }
 
 ::selection {

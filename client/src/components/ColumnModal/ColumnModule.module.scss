@@ -1,0 +1,65 @@
+@import "../../scss/mixins";
+@import "../../scss/variables";
+
+.overlay {
+  @include modal-overlay;
+}
+
+.form {
+  .heading {
+    margin-bottom: 16px;
+  }
+
+
+
+  .formInputs {
+    .input {
+      box-sizing: border-box;
+      padding: 4px 8px;
+      height: 36px;
+      width: 100%;
+      background-color: transparent;
+      color: $light-grey;
+      border: 2px solid $greyHover;
+      border-radius: 4px;
+      outline: none;
+      margin-bottom: 8px;
+
+      &:hover {
+        border: 2px solid $grey;
+        transition: .2s ease all;
+      }
+
+      &:focus {
+        border: 2px solid $light-grey;
+        background-color: $taskHover;
+        transition: .2s ease all;
+      }
+    }
+
+    .buttonsWrap {
+      display: flex;
+      gap: 8px;
+      justify-content: space-between;
+
+      .createBtn {
+        @include column-modal-btn;
+
+        &:hover {
+          background-color: $hoverRed;
+          color: #fff;
+          transition: .2s ease all;
+        }
+      }
+
+      .closeBtn {
+        @include column-modal-btn;
+
+        &:hover {
+          background-color: $columnModalBtn;
+          transition: .2s ease all;
+        }
+      }
+    }
+  }
+}

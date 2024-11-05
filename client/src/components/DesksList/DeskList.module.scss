@@ -3,7 +3,11 @@
 
 .wrap {
   padding: 0 48px;
+  width: 100%;
+
   .desks {
+    width: 100%;
+
     .favouritesDesks, .workDesks {
       @include desk-list;
       margin-bottom: 16px;
@@ -19,6 +23,7 @@
       border: 2px solid $grey;
       font-size: 48px;
       font-weight: 200;
+      background-color: transparent;
 
       &:hover {
         background-color: #333436;

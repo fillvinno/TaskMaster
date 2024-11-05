@@ -1,3 +1,5 @@
+@import './variables';
+
 @mixin desk-item {
   border: none;
   width: 160px;
@@ -18,4 +20,44 @@
   outline: none;
   border: none;
   cursor: pointer;
+}
+
+@mixin form-btn {
+  @include btn;
+  color: $light-grey;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 16px;
+  padding: 0 12px;
+}
+
+@mixin add-column-btn {
+  justify-content: center;
+  background-color: $task;
+  height: 36px;
+  font-size: 14px;
+  box-sizing: border-box;
+  width: 50%;
+
+  &:hover {
+    transition: .2s ease all;
+  }
+}
+
+@mixin column-modal-btn {
+  @include form-btn;
+
+  font-size: 14px;
+  justify-content: center;
+  border-radius: 2px;
+  color: $light-grey;
+  background-color: $taskHover;
+  height: 36px;
+  width: 50%;
+}
+
+@mixin modal-overlay {
+  background-color: #1E1E1ECC;
+  position: fixed;
+  inset: 0;
 }

@@ -8,12 +8,13 @@
   cursor: pointer;
   clip-path: inset(0 round 50%);
   position: relative;
+  background-color: transparent;
 
   img {
     position: absolute;
     bottom: -4px;
-    left: 0;
-    height: 32px;
+    left: 1px;
+    height: 31px;
     background-color: transparent;
   }
 

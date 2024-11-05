@@ -9,27 +9,80 @@
     @include btn;
     justify-content: center;
     gap: 8px;
-    border: 2px solid $grey;
     border-radius: 6px;
     font-weight: 600;
     font-size: 16px;
     height: 80px;
     padding: 0;
     min-width: 300px;
+    background-color: $taskHover;
+    color: $light-grey;
 
     &:hover {
-      background-color: $grey;
+      background-color: #303030;
       transition: .2s ease all;
-
-      span {
-        background-color: $grey;
-        transition: .2s ease all;
-      }
     }
 
     span {
       font-size: 28px;
       font-weight: 500;
+    }
+  }
+
+  .addColumnForm {
+    background-color: $column;
+    height: 100%;
+    min-width: 300px;
+    padding: 24px;
+    border-radius: 4px;
+
+    .newColumnHeading {
+      margin-bottom: 16px;
+      padding: 0 4px;
+    }
+
+    .columnName {
+      height: 40px;
+      max-height: 400px;
+      width: 100%;
+      background-color: $task;
+      color: $light-grey;
+      border: none;
+      border-radius: 4px;
+      padding: 10px 12px;
+      margin-bottom: 8px;
+      font-weight: 500;
+      font-size: 16px;
+      resize: none;
+
+      &::-webkit-scrollbar {
+        width: 0;
+      }
+    }
+
+    .formBtns {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+
+      .formAddColumnBtn {
+        @include form-btn;
+        @include add-column-btn;
+
+        &:hover {
+          background-color: $hoverRed;
+          color: #fff;
+        }
+      }
+
+      .formCancelBtn {
+        @include form-btn;
+        @include add-column-btn;
+
+        &:hover {
+          background-color: $taskHover;
+        }
+      }
     }
   }
 }

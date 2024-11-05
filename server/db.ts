@@ -1,5 +1,5 @@
 import {Sequelize} from "sequelize-typescript"
-import {CompletedTasks, Task, Token, User} from "./models.js";
+import {Desk, DeskColumn, Card, Token, User} from "./models.js";
 import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -17,6 +17,6 @@ export default new Sequelize(
     dialect: "postgres",
     port,
     logging: false,
-    models: [User, Task, CompletedTasks, Token]
+    models: [User, Token, Desk, DeskColumn, Card]
   }
 )

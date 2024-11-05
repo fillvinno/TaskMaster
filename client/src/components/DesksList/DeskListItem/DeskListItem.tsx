@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './DeskListItem.module.scss'
 import star from '../../../assets/star.svg'
-import StarIcon from "../../Icons/StarIcon.tsx";
+import StarIcon from "../../UI/Icons/StarIcon.tsx";
 import {Link} from "react-router-dom";
 
 type TProps = {
