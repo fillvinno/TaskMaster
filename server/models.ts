@@ -28,7 +28,7 @@ export class Token extends Model {
 @Table({
   timestamps: true,
   tableName: 'users',
-  modelName: 'User'
+  modelName: 'User',
 })
 
 export class User extends Model {
@@ -47,7 +47,7 @@ export class User extends Model {
 
   @Column({
     type: DataType.STRING,
-    allowNull: false
+    allowNull: true
   })
   declare nickname: string
 
@@ -59,6 +59,9 @@ export class User extends Model {
 
   @HasOne(() => Token, 'userId')
   declare token: Token
+
+  @HasMany(() => Desk)
+  declare desks: Desk[];
 }
 
 @Table({
@@ -130,7 +133,7 @@ export class Card extends Model {
   declare columnId: string
 
   @BelongsTo(() => DeskColumn)
-  declare column: string
+  declare column: DeskColumn
 }
 
 @Table({
@@ -153,6 +156,17 @@ export class Desk extends Model {
     defaultValue: 'Column'
   })
   declare title: string
+
+  @ForeignKey(() => User)
+  @Column({
+    type: DataType.UUID,
+    primaryKey: true,
+    defaultValue: DataType.UUIDV4
+  })
+  declare userId: string
+
+  @BelongsTo(() => User)
+  declare user: User;
 
   @HasMany(() => DeskColumn)
   declare deskColumns: DeskColumn[];

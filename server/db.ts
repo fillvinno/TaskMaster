@@ -4,7 +4,6 @@ import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 export const __dirname = dirname(fileURLToPath(import.meta.url));
-console.log(__dirname)
 
 const port: number = parseInt(<string><unknown>process.env.DB_PORT, 10) || 5000
 
